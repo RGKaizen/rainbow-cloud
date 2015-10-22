@@ -13,3 +13,5 @@ whats up
 ```pip install psycopg2```
 
 ```pip install postgres```
+
+```pip install --pre pyusb```
