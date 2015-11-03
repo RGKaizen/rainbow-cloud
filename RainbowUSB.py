@@ -41,6 +41,25 @@ class Rainbow:
         if self.endpoint is None:
             print "Endpoint Not Found"
 
+
+    def setColor(self, strip, pos, red, green, blue):
+        if self.endpoint is None:
+            return "No usb connected"
+
+        msg = ClrMsg(strip, pos, red, green, blue)
+        success = self.endpoint.write(msg.payload)
+        return success
+
+    def updateStrip(self, strip_id):
+        if self.endpoint is None:
+            return "No usb connected"
+
+        if strip_id == 1:
+            success = self.endpoint.write(self.ON1)
+        else:
+            success = self.endpoint.write(self.ON2)
+        return success
+
     def TestUSBs(self):
         for x in range(0, 48):
             msg = ClrMsg(1, x, 127, 0, 0)
@@ -52,12 +71,4 @@ class Rainbow:
 
         self.endpoint.write(self.ON1)
         self.endpoint.write(self.ON2)
-
-    def setColor(self, strip, pos, red, green, blue):
-        if self.endpoint is None:
-            return "No usb connected"
-
-        print "Strip %1 Pos %2 Red %3 Green %4 Blue %5".format(strip, pos, red, green, blue)
-        msg = ClrMsg(strip, pos, red, green, blue)
-        return self.endpoint.write(msg.payload)
 
