@@ -1,6 +1,5 @@
 from flask import Flask, request
 import RainbowUSB
-import random
 
 #Set up dependencies
 app = Flask(__name__)
@@ -25,9 +24,9 @@ def handle_rainbow():
             success = rainbow.setColor(pixel_strip, pos, red, green, blue)
     rainbow.updateStrip(strip)
     if success == 1:
-        return "yay"
+        return "11111111111111111111111"
     else:
-        return "nah"
+        return "00000000000000000000000"
 
 @app.route('/Test', methods=['POST'])
 def test_usb():
@@ -36,4 +35,4 @@ def test_usb():
 
 # Connect USB and start webserver
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)

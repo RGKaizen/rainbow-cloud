@@ -5,10 +5,11 @@ from ClrMsg import ClrMsg
 
 class Rainbow:
     endpoint = None
-    ON1 = "\x80\x00\x00\x00"
-    ON2 = "\xC0\x00\x00\x00"
+    strip_update_list = {'kai': "\x80\x00\x00\x00", 'zen': "\xC0\x00\x00\x00"}
 
     def __init__(self):
+
+        print "Rainbow USB Init"
         # find our device
         dev = usb.core.find(idVendor=0x2341, idProduct=0x8036)
 
@@ -16,8 +17,9 @@ class Rainbow:
         if dev is None:
             raise ValueError('Device not found')
 
-        if dev.is_kernel_driver_active(2):
-            dev.detach_kernel_driver(2)
+        # Sometimes this is 0, sometimes 2
+        if dev.is_kernel_driver_active(0):
+            dev.detach_kernel_driver(0)
             print "Dettached Kernel"
         else:
             print "Kernel Already Dettached"
@@ -55,9 +57,9 @@ class Rainbow:
             return "No usb connected"
 
         if strip_id == 1:
-            success = self.endpoint.write(self.ON1)
+            success = self.endpoint.write(self.strip_update_list["kai"])
         else:
-            success = self.endpoint.write(self.ON2)
+            success = self.endpoint.write(self.strip_update_list["zen"])
         return success
 
     def TestUSBs(self):
@@ -69,6 +71,5 @@ class Rainbow:
             msg = ClrMsg(2, x, 0, 127, 0)
             self.endpoint.write(msg.payload)
 
-        self.endpoint.write(self.ON1)
-        self.endpoint.write(self.ON2)
-
+        self.updateStrip(1)
+        self.updateStrip(2)
