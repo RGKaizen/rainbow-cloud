@@ -23,8 +23,6 @@ def handle_rainbow():
     except Exception:
         return '\tInvalidInput\n'
 
-
-
 @_App.route('/Test', methods=['GET'])
 def test():
     pixels_out = []
@@ -37,7 +35,7 @@ def test():
     return 'okay'
 
 @_App.route('/On', methods=['GET'])
-def test():
+def on():
     pixels_out = []
     for ii in range(_LedCount):
         red = 256
