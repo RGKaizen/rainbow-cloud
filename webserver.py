@@ -36,6 +36,17 @@ def test():
     _Client.put_pixels(pixels_out, channel=0)
     return 'okay'
 
+@_App.route('/On', methods=['GET'])
+def test():
+    pixels_out = []
+    for ii in range(_LedCount):
+        red = 256
+        green = 256
+        blue = 256
+        pixels_out.append((red, green, blue))
+    _Client.put_pixels(pixels_out, channel=0)
+    return 'okay'
+
 @_App.route('/Off', methods=['GET'])
 def off():
     pixels_out = []
