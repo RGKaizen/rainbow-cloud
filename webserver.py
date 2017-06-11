@@ -34,6 +34,7 @@ def test():
         blue = 0
         pixels_out.append((red, green, blue))
     _Client.put_pixels(pixels_out, channel=0)
+    return 'okay'
 
 @_App.route('/Off', methods=['GET'])
 def off():
@@ -41,6 +42,7 @@ def off():
     for ii in range(_LedCount):
         pixels_out.append((0,0,0))
     _Client.put_pixels(pixels_out, channel=0)
+    return 'okay'
 
 # Connect to FC Server and start webserver
 if __name__ == '__main__':
