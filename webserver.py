@@ -7,7 +7,7 @@ _Client = opc.Client(_IPPort)
 _LedCount = 60
 _ChannelCount = 2
 
-pixels_state = [[(0,0,0) for x in range(_LedCount)] for y in range(_ChannelCount)]
+_PixelState = [[(0,0,0) for x in range(_LedCount)] for y in range(_ChannelCount)]
 
 @_App.route('/Rainbow', methods=['POST'])
 def handle_rainbow():
@@ -15,10 +15,10 @@ def handle_rainbow():
         data = request.get_json(force=True)
         pixels = data["pixels"]
         for p in pixels:
-            pixels_state[int(p.get("channel"))][int(p.get("pos"))] = (p["red"], p["green"], p["blue"])
+            _PixelState[int(p.get("channel"))][int(p.get("pos"))] = (p["red"], p["green"], p["blue"])
 
         for c in range(_ChannelCount):            
-            if(_Client.put_pixels(pixels_state[c], channel=c)):
+            if(_Client.put_pixels(_PixelState[c], channel=c)):
                 return '\tsuccess\n'
         return '\tfail\n'
     except Exception:
