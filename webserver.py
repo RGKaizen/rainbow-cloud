@@ -55,7 +55,6 @@ def onA():
 @_App.route('/OnB', methods=['GET'])
 def onB():
     pixels_out = []
-    _Client.put_pixels(pixels_out, channel=0)
     for ii in range(_LedCount):
         red = 0
         green = 256
