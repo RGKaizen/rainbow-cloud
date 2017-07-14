@@ -37,7 +37,7 @@ def on():
     return 'okay'
 
 @_App.route('/OnA', methods=['GET'])
-def on():
+def onA():
     pixels_out = []
     for ii in range(_LedCount):
         red = 256
