@@ -5,10 +5,9 @@ _App = Flask(__name__)
 _IPPort = '127.0.0.1:7890'
 _Client = opc.Client(_IPPort)
 _LedCount = 60
+_ChannelCount = 2
 
-pixels_state = []
-for ii in range(_LedCount):
-    pixels_state.append((0, 0, 0))
+pixels_state = [[(0,0,0) for x in range(_LedCount)] for y in range(_ChannelCount)]
 
 @_App.route('/Rainbow', methods=['POST'])
 def handle_rainbow():
@@ -16,41 +15,37 @@ def handle_rainbow():
         data = request.get_json(force=True)
         pixels = data["pixels"]
         for p in pixels:
-            pixels_state[int(p.get("pos"))] = (p["red"], p["green"], p["blue"])
-        if(_Client.put_pixels(pixels_state, channel=0)):
-            return '\tsuccess\n'
+            pixels_state[int(p.get("channel"))][int(p.get("pos"))] = (p["red"], p["green"], p["blue"])
+
+        for c in _ChannelCount:            
+            if(_Client.put_pixels(pixels_state[c], channel=c)):
+                return '\tsuccess\n'
         return '\tfail\n'
     except Exception:
         return '\tInvalidInput\n'
 
-@_App.route('/Test', methods=['GET'])
-def test():
-    pixels_out = []
-    for ii in range(_LedCount):
-        red = 0
-        green = 0
-        blue = 0
-        pixels_out.append((red, green, blue))
-    _Client.put_pixels(pixels_out, channel=0)
-    return 'okay'
-
 @_App.route('/On', methods=['GET'])
 def on():
     pixels_out = []
-    for ii in range(_LedCount):
-        red = 256
-        green = 256
-        blue = 256
-        pixels_out.append((red, green, blue))
-    _Client.put_pixels(pixels_out, channel=0)
+    for c in _ChannelCount:
+        for ii in range(_LedCount):
+            red = 256
+            green = 256
+            blue = 256
+            pixels_out.append((red, green, blue))
+        _Client.put_pixels(pixels_out, channel=c)
     return 'okay'
 
 @_App.route('/Off', methods=['GET'])
 def off():
     pixels_out = []
-    for ii in range(_LedCount):
-        pixels_out.append((0,0,0))
-    _Client.put_pixels(pixels_out, channel=0)
+    for c in _ChannelCount:
+        for ii in range(_LedCount):
+            red = 0
+            green = 0
+            blue = 0
+            pixels_out.append((red, green, blue))
+        _Client.put_pixels(pixels_out, channel=c)
     return 'okay'
 
 # Connect to FC Server and start webserver
