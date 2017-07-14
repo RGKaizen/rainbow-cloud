@@ -19,7 +19,7 @@ def handle_rainbow():
 
         for c in range(_ChannelCount):            
             if(_Client.put_pixels(_PixelState[c], channel=c)):
-                return '\tsuccess\n'
+                print('\tsuccess {}\n').format(c)
         return '\tfail\n'
     except Exception:
         return '\tInvalidInput\n'
