@@ -17,7 +17,7 @@ def handle_rainbow():
         for p in pixels:
             pixels_state[int(p.get("channel"))][int(p.get("pos"))] = (p["red"], p["green"], p["blue"])
 
-        for c in _ChannelCount:            
+        for c in range(_ChannelCount):            
             if(_Client.put_pixels(pixels_state[c], channel=c)):
                 return '\tsuccess\n'
         return '\tfail\n'
@@ -27,7 +27,7 @@ def handle_rainbow():
 @_App.route('/On', methods=['GET'])
 def on():
     pixels_out = []
-    for c in _ChannelCount:
+    for c in range(_ChannelCount):
         for ii in range(_LedCount):
             red = 256
             green = 256
@@ -39,7 +39,7 @@ def on():
 @_App.route('/Off', methods=['GET'])
 def off():
     pixels_out = []
-    for c in _ChannelCount:
+    for c in range(_ChannelCount):
         for ii in range(_LedCount):
             red = 0
             green = 0
