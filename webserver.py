@@ -14,13 +14,6 @@ _PixelState = [[(0,0,0) for x in range(_LedCount)] for y in range(_ChannelCount)
 if __name__ == "__main__":
     _App.run()
 
-@app.route("/")
-def hello():
-    return "Hello World!"
-
-    if __name__ == "__main__":
-            app.run()
-
 @_App.route('/Rainbow', methods=['POST'])
 def handle_rainbow():
    try:
