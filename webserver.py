@@ -18,8 +18,8 @@ def handle_rainbow():
             _PixelState[p["channel"]][p["pos"]] = (p["red"], p["green"], p["blue"])
 
         for c in range(_ChannelCount):            
-            if(_Client.put_pixels(_PixelState[c], channel=c+1)):
-                print('\tsuccess {}\n').format(c+1)
+            if(_Client.put_pixels(_PixelState[c], channel=c)):
+                print('\tsuccess {}\n').format(c)
         return '\tfail\n'
     except Exception:
         return '\tInvalidInput\n'
@@ -28,17 +28,17 @@ def handle_rainbow():
 def onBoth():
     pixels_out = []
     for ii in range(_LedCount):
-        red = 256
-        green = 0
+        red = 127
+        green = 127
         blue = 0
         pixels_out.append((red, green, blue))
-    _Client.put_pixels(pixels_out, channel=0)
+    _Client.put_pixels(pixels_out, channel=1)
     for ii in range(_LedCount):
         red = 0
-        green = 0
-        blue = 256
+        green = 127
+        blue = 127
         pixels_out.append((red, green, blue))
-    _Client.put_pixels(pixels_out, channel=1)
+    _Client.put_pixels(pixels_out, channel=2)
     return 'okay'
 
 @_App.route('/OnA', methods=['GET'])
@@ -71,7 +71,8 @@ def off():
         green = 0
         blue = 0
         pixels_out.append((red, green, blue))
-    _Client.put_pixels(pixels_out, channel=0)
+    _Client.put_pixels(pixels_out, channel=1)
+    _Client.put_pixels(pixels_out, channel=2)
     return 'okay'
 
 # Connect to FC Server and start webserver
