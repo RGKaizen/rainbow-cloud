@@ -3,7 +3,7 @@ import opc
 
 _App = Flask(__name__)
 _IPPort = '127.0.0.1:7890'
-_Client = opc.Client(_IPPort)
+_Client = opc.Client(_IPPort, long_connection=True)
 _LedCount = 60
 _ChannelCount = 2
 
@@ -32,13 +32,13 @@ def onBoth():
         green = 0
         blue = 0
         pixels_out.append((red, green, blue))
-    _Client.put_pixels(pixels_out, channel=0)
+    _Client.put_pixels(pixels_out, channel=1)
     for ii in range(_LedCount):
         red = 0
         green = 256
         blue = 0
         pixels_out.append((red, green, blue))
-    _Client.put_pixels(pixels_out, channel=1)
+    _Client.put_pixels(pixels_out, channel=2)
     return 'okay'
 
 @_App.route('/OnA', methods=['GET'])
@@ -49,7 +49,7 @@ def onA():
         green = 0
         blue = 0
         pixels_out.append((red, green, blue))
-    _Client.put_pixels(pixels_out, channel=0)
+    _Client.put_pixels(pixels_out, channel=1)
     return 'okay'
 
 @_App.route('/OnB', methods=['GET'])
@@ -60,7 +60,7 @@ def onB():
         green = 256
         blue = 0
         pixels_out.append((red, green, blue))
-    _Client.put_pixels(pixels_out, channel=1)
+    _Client.put_pixels(pixels_out, channel=2)
     return 'okay'
 
 @_App.route('/Off', methods=['GET'])
@@ -72,7 +72,7 @@ def off():
             green = 0
             blue = 0
             pixels_out.append((red, green, blue))
-        _Client.put_pixels(pixels_out, channel=c)
+        _Client.put_pixels(pixels_out, channel=c+1)
     return 'okay'
 
 # Connect to FC Server and start webserver
