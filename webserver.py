@@ -6,7 +6,6 @@ _IPPort = '127.0.0.1:7890'
 _Client = opc.Client(_IPPort, verbose=True)
 _LedCount = 60
 _ChannelCount = 2
-
 _PixelState = [[(0,0,0) for x in range(_LedCount)] for y in range(_ChannelCount)]
 
 @_App.route('/Rainbow', methods=['POST'])
@@ -23,45 +22,6 @@ def handle_rainbow():
        return '\tfail\n'
    except Exception:
        return '\tInvalidInput\n'
- 
-@_App.route('/OnBoth', methods=['GET'])
-def onBoth():
-   pixels_out = []
-   for ii in range(_LedCount):
-       red = 256
-       green = 0
-       blue = 0
-       pixels_out.append((red, green, blue))
-   _Client.put_pixels(pixels_out, channel=0)
-   for ii in range(_LedCount):
-       red = 0
-       green = 256
-       blue = 0
-       pixels_out.append((red, green, blue))
-   _Client.put_pixels(pixels_out, channel=1)
-   return 'okay'
- 
-@_App.route('/OnA', methods=['GET'])
-def onA():
-   pixels_out = []
-   for ii in range(_LedCount):
-       red = 256
-       green = 0
-       blue = 0
-       pixels_out.append((red, green, blue))
-   _Client.put_pixels(pixels_out, channel=0)
-   return 'okay'
- 
-@_App.route('/OnB', methods=['GET'])
-def onB():
-   pixels_out = []
-   for ii in range(_LedCount):
-       red = 0
-       green = 256
-       blue = 0
-       pixels_out.append((red, green, blue))
-   _Client.put_pixels(pixels_out, channel=1)
-   return 'okay'
  
 @_App.route('/Off', methods=['GET'])
 def off():
