@@ -4,6 +4,10 @@ import opc
 _App = Flask(__name__)
 _IPPort = '127.0.0.1:7890'
 _Client = opc.Client(_IPPort, verbose=True)
+if _Client.can_connect():
+    print(' Connected to opc')
+else:
+    print(' Could not connect to opc')
 _LedCount = 60
 _ChannelCount = 2
 _PixelState = [[(0,0,0) for x in range(_LedCount)] for y in range(_ChannelCount)]
