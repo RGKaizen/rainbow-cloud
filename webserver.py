@@ -13,7 +13,7 @@ def handle_rainbow():
        data = request.get_json(force=True)
        pixels = data["pixels"]
        for p in pixels:
-           position = p["channel"] * 64 + p["pos"]
+           position = p["channel"] * 60 + p["pos"]
            _PixelState[position] = (p["red"], p["green"], p["blue"])
       
        if(_Client.put_pixels(_PixelState, channel=0)):
