@@ -18,7 +18,7 @@ def handle_rainbow():
             _PixelState[p["channel"]][p["pos"]] = (p["red"], p["green"], p["blue"])
 
         for c in range(_ChannelCount):            
-            if(_Client.put_pixels(_PixelState[c], channel=c)):
+            if(_Client.put_pixels(_PixelState[0], channel=1)):
                 print('\tsuccess {}\n').format(c)
         return '\tfail\n'
     except Exception:
@@ -32,7 +32,7 @@ def onBoth():
         green = 127
         blue = 0
         pixels_out.append((red, green, blue))
-    _Client.put_pixels(pixels_out, channel=0)
+    #_Client.put_pixels(pixels_out, channel=0)
     for ii in range(_LedCount):
         red = 0
         green = 127
@@ -71,7 +71,7 @@ def off():
         green = 0
         blue = 0
         pixels_out.append((red, green, blue))
-    _Client.put_pixels(pixels_out, channel=0)
+    #_Client.put_pixels(pixels_out, channel=0)
     _Client.put_pixels(pixels_out, channel=1)
     return 'okay'
 
