@@ -4,9 +4,8 @@ import opc
 _App = Flask(__name__)
 _IPPort = '127.0.0.1:7890'
 _Client = opc.Client(_IPPort, verbose=True)
-_LedCount = 60
-_ChannelCount = 2
-_PixelState = [[(0,0,0) for x in range(_LedCount)] for y in range(_ChannelCount)]
+_LedCount = 120
+_PixelState = [(0,0,0) for x in range(_LedCount)]
 
 @_App.route('/Rainbow', methods=['POST'])
 def handle_rainbow():
@@ -14,11 +13,13 @@ def handle_rainbow():
        data = request.get_json(force=True)
        pixels = data["pixels"]
        for p in pixels:
-           _PixelState[p["channel"]][p["pos"]] = (p["red"], p["green"], p["blue"])
-       if(_Client.put_pixels(_PixelState[1], channel=1)):
-           print('\tsuccess 1\n')
-       if(_Client.put_pixels(_PixelState[0], channel=0)):
-           print('\tsuccess 0\n')
+           position = p["channel"] * 64 + p["pos"]
+           _PixelState[position] = (p["red"], p["green"], p["blue"])
+      
+       if(_Client.put_pixels(_PixelState, channel=1)):
+           print('\tsuccess {}\n').format(c)
+       if(_Client.put_pixels(_PixelState, channel=0)):
+           print('\tsuccess {}\n').format(c)
 
        return '\tfail\n'
    except Exception:
