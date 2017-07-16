@@ -3,7 +3,7 @@ import opc
 
 _App = Flask(__name__)
 _IPPort = '127.0.0.1:7890'
-_Client = opc.Client(_IPPort)
+_Client = opc.Client(_IPPort, verbose=True)
 _LedCount = 60
 _ChannelCount = 2
 
@@ -18,7 +18,7 @@ def handle_rainbow():
             _PixelState[p["channel"]][p["pos"]] = (p["red"], p["green"], p["blue"])
 
         for c in range(_ChannelCount):            
-            if(_Client.put_pixels(_PixelState[c], channel=c+1)):
+            if(_Client.put_pixels(_PixelState[c], channel=c)):
                 print('\tsuccess {}\n').format(c)
         return '\tfail\n'
     except Exception:
