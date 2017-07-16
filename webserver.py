@@ -6,6 +6,7 @@ _IPPort = '127.0.0.1:7890'
 _Client = opc.Client(_IPPort, verbose=True)
 _LedCount = 128
 _PixelState = [(0,0,0) for x in range(_LedCount)]
+_Debug = false
 
 @_App.route('/Rainbow', methods=['POST'])
 def handle_rainbow():
@@ -17,9 +18,11 @@ def handle_rainbow():
            _PixelState[position] = (p["red"], p["green"], p["blue"])
       
        if(_Client.put_pixels(_PixelState, channel=0)):
-           print('\tsuccess 0\n')
+           if(_Debug):
+              print('\tsuccess 0\n')
        if(_Client.put_pixels(_PixelState, channel=1)):
-           print('\tsuccess 1\n')
+           if(_Debug):
+              print('\tsuccess 1\n')
 
        return '\tfail\n'
    except Exception:
