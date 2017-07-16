@@ -32,13 +32,13 @@ def onBoth():
         green = 0
         blue = 0
         pixels_out.append((red, green, blue))
-    _Client.put_pixels(pixels_out, channel=1)
+    _Client.put_pixels(pixels_out, channel=0)
     for ii in range(_LedCount):
         red = 0
         green = 256
         blue = 0
         pixels_out.append((red, green, blue))
-    _Client.put_pixels(pixels_out, channel=2)
+    _Client.put_pixels(pixels_out, channel=1)
     return 'okay'
 
 @_App.route('/OnA', methods=['GET'])
