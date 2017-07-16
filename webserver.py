@@ -7,8 +7,6 @@ _Client = opc.Client(_IPPort, verbose=True)
 _LedCount = 60
 _ChannelCount = 2
 _PixelState = [[(0,0,0) for x in range(_LedCount)] for y in range(_ChannelCount)]
-if __name__ == "__main__":
-    _App.run(host='0.0.0.0', port=80, debug=True)
 
 @_App.route('/Rainbow', methods=['POST'])
 def handle_rainbow():
@@ -48,3 +46,6 @@ def on():
            pixels_out.append((red, green, blue))
        _Client.put_pixels(pixels_out, channel=c)
    return 'okay'
+
+if __name__ == "__main__":
+    _App.run(host='0.0.0.0', port=80, debug=True)
