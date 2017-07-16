@@ -1,3 +1,14 @@
+from flask import Flask, request
+import opc
+
+_App = Flask(__name__)
+_IPPort = '127.0.0.1:7890'
+_Client = opc.Client(_IPPort, verbose=True)
+_LedCount = 60
+_ChannelCount = 2
+
+_PixelState = [[(0,0,0) for x in range(_LedCount)] for y in range(_ChannelCount)]
+
 @_App.route('/Rainbow', methods=['POST'])
 def handle_rainbow():
    try:
