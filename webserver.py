@@ -6,7 +6,7 @@ _IPPort = '127.0.0.1:7890'
 _Client = opc.Client(_IPPort, verbose=True)
 _LedCount = 128
 _PixelState = [(0,0,0) for x in range(_LedCount)]
-_Debug = false
+_Debug = False
 
 @_App.route('/Rainbow', methods=['POST'])
 def handle_rainbow():
