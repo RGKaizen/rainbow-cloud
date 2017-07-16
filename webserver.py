@@ -3,7 +3,7 @@ import opc
 
 _App = Flask(__name__)
 _IPPort = '127.0.0.1:7890'
-_Client = opc.Client(_IPPort, long_connection=True)
+_Client = opc.Client(_IPPort)
 _LedCount = 60
 _ChannelCount = 2
 
@@ -18,7 +18,7 @@ def handle_rainbow():
             _PixelState[p["channel"]][p["pos"]] = (p["red"], p["green"], p["blue"])
 
         for c in range(_ChannelCount):            
-            if(_Client.put_pixels(_PixelState[c], channel=c)):
+            if(_Client.put_pixels(_PixelState[c], channel=c+1)):
                 print('\tsuccess {}\n').format(c)
         return '\tfail\n'
     except Exception:
@@ -66,13 +66,12 @@ def onB():
 @_App.route('/Off', methods=['GET'])
 def off():
     pixels_out = []
-    for c in range(_ChannelCount):
-        for ii in range(_LedCount):
-            red = 0
-            green = 0
-            blue = 0
-            pixels_out.append((red, green, blue))
-        _Client.put_pixels(pixels_out, channel=c+1)
+    for ii in range(_LedCount):
+        red = 0
+        green = 0
+        blue = 0
+        pixels_out.append((red, green, blue))
+    _Client.put_pixels(pixels_out, channel=0)
     return 'okay'
 
 # Connect to FC Server and start webserver
